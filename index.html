@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Riccardo Galli</title>
+    <style>
+        /* 新增礼物展示样式 */
+        .gift-container {
+            display: flex;
+            gap: 20px;
+            alignitems: center;
+            margin: 20px 0;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(255,105,180,0.3);
+        }
+
+        .gift-image {
+            width: 300px;
+            border-radius: 15px;
+            border: 3px solid #ff69b4;
+            transition: transform 0.3s;
+        }
+
+        .gift-image:hover {
+            transform: scale(1.05);
+        }
+
+        .gift-message {
+            flex: 1;
+            text-align: left;
+            color: #ff69b4;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .unlock-btn {
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            margin-top: 15px;
+            padding: 10px 20px;
+            border-radius: 15px;
+        }
+
+        /* 调整最终情书样式 */
+        .love-letter {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        /* 其他原有样式保持不变 */
+        body {
+            background: #ffd6e9;
+            font-family: 'Comic Sans MS', cursive;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background: #ffe5f4;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px #ff85b3;
+            max-width: 800px;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        h1, h2 {
+            color: #ff69b4;
+            text-shadow: 2px 2px #ffffff;
+        }
+
+        button {
+            background: #ff69b4;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 18px;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            background: #ff1493;
+        }
+
+        .level {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 20px 0;
+            display: none;
+            border: 3px solid #ff69b4;
+        }
+
+        .active { display: block; }
+
+        .hearts {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .heart {
+            position: absolute;
+            animation: float 3s infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        .cat-emoji { font-size: 4em; }
+        .cat-paws {
+            position: absolute;
+            width: 50px;
+            opacity: 0.3;
+        }
+
+        #finalAnimation {
+            font-size: 40px;
+            color: #ff0066;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts" id="hearts"></div>
+    <img src="https://img.icons8.com/ios-filled/50/ff69b4/cat-footprint.png" class="cat-paws" style="top: 10%; left: 20%">
+    <img src="https://img.icons8.com/ios-filled/50/ff69b4/cat-footprint.png" class="cat-paws" style="top: 30%; right: 15%">
+
+    <div class="container">
+        <!-- 主界面 -->
+        <div id="mainContent" class="active">
+            <div class="cat-emoji">😽❤️</div>
+            <h1>Riccardo, <br> Would you be my valentine?</h1>
+            <div class="buttons">
+                <button onclick="startGame()">Yes!</button>
+                <button onmouseover="moveButton()" onclick="showHaiyaa()">No</button>
+            </div>
+        </div>
+
+        <!-- level1 -->
+        <div id="level1" class="level">
+            <h2>Xiyang has four types of love languages, choose one that you value the most</h2>
+            <button onclick="checkAnswer(1, true)">words of affirmation</button>
+            <button onclick="showTrickMessage()">cuddle with you</button>
+            <button onclick="showMessage()">have amazing food together</button>
+            <button onclick="showLevel(3)">send you gifts</button>
+        </div>
+
+        <!-- level2 -->
+        <div id="level2" class="level">
+            <div class="cat-emoji">🐱💘🐾</div>
+            <div class="love-letter">
+                <h2>Fuiyoh! 💌</h2>
+                <p>My dearest Riccardo,</p>
+                <p>First of all, I know how dry my words are, and every word I say right now could not make you feel better</p>
+                <p>and there is no such real "empathize" in this world</p>
+                <p>because I never doubt that you will not find a job that you like</p>
+                <p>I know you are a super clever and talented person</p>
+                <p>and I firmly believe that there gonna be someone who can see your potential</p>
+                <p>Bro, you are my favorite weirdo!</p>
+                <p>No matter the challenge or joys in the future, I am willing to be by your side, writing this story together✒️📒</p>
+                <p>Un bacione!👩‍❤️‍💋‍👨</p>
+                <h2>Wanna see more? (type: yes/no)</h2>
+                <input type="text" id="answer" placeholder="yes/no...">
+                <button onclick="checkAnswer(2, document.getElementById('answer').value === 'yes')">I'm sure</button>
+            </div>
+        </div>
+
+
+        <div id="level3" class="level">
+            <h2>🎁 Your Gift is on its way~ 🎁</h2>
+            <h2>👇Give you a hint about it👇</h2>
+            <div class="gift-container">
+                <img src="write.jpeg" class="gift-image" alt="特别礼物">
+                <div class="gift-message">
+                    <p>Bro is too hot when he focuses on things like this</p>
+                    <p>and this pic is my hint🤭</p>
+                    <p>It is definitely late for the Valentine's Day</p>
+                    <p>But it can make the day you receive it as OUR Valentine's Day!</p>
+                    <p>What a big brain~🧠😄👍</p>
+                    <button onclick="showLevel(4)" class="unlock-btn">Ah~Got it🫢</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- final page -->
+        <div id="loveLetter" class="level">
+            <div class="cat-emoji">👽💭</div>
+            <div class="love-letter">
+                <h2>Thank you so much for your patience</h2>
+                <p>I know I am not good at coding, it is so difficult<p>
+                <p>and I seek help from Mr. Deep a lot</p>
+                <p>but he is busy all the time😩</p>
+                <p>unlike you, you always have time for me even when you are busy🥹</p>
+                <p>Thank you for being my valentine!</p>
+                <p>thank you for teaching me how to love</p>
+                <p>Hope you like this buggy website💻</p>
+                <div id="finalAnimation">❤️ I LOVE YOU ❤️</div>
+                <button onclick="location.reload()" style="margin-top: 20px;">Epic</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // logic
+        const levels = ['mainContent', 'level1', 'level2', 'level3', 'loveLetter'];
+
+        function showLevel(levelNumber) {
+            levels.forEach(level => document.getElementById(level).classList.remove('active'));
+            document.getElementById(levels[levelNumber]).classList.add('active');
+            if(levelNumber === 4) createHearts();
+        }
+
+        function startGame() {
+            showLevel(1);
+        }
+
+        function checkAnswer(level, isCorrect) {
+            if(isCorrect) {
+                showLevel(level < 3 ? level + 1 : 4);
+            } else {
+                alert("Haiyaa, what do you mean?😕");
+            }
+        }
+
+        // functions
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts');
+            heartsContainer.innerHTML = '';
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 2 + 's';
+                heart.innerHTML = '💖';
+                heartsContainer.appendChild(heart);
+            }
+        }
+
+        function moveButton() {
+            const noBtn = document.querySelector('#mainContent button:last-child');
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth) * 0.5;
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight) * 0.5;
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        }
+
+        function showTrickMessage() {
+            alert("🥹Boyyyyy🤗looking forward to hugging you tight again❤️");
+        }
+
+        function showMessage() {
+            alert("No matter Chinese🇨🇳 food or Italian🇮🇹 food (deepest love ever🤭)");
+        }
+
+        function showHaiyaa() {
+            alert("Haiyaa!😾");
+        }
+    </script>
+</body>
+</html>
